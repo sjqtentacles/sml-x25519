@@ -1,0 +1,3 @@
+package github.com/sjqtentacles/sml-x25519
+require {
+}
