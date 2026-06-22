@@ -136,6 +136,24 @@ struct
         (true,
          X25519.base (fromHex alicePriv) <> X25519.base (fromHex bobPriv));
 
+      (* 7. hex helpers *)
+      section "hex helpers";
+      (* fixed vector: toHex of Alice's public key = the RFC 7748 hex string *)
+      checkString "toHex(base alicePriv) = Alice pub hex"
+        (alicePub, X25519.toHex (X25519.base (fromHex alicePriv)));
+      checkString "toHex agrees with local toHex"
+        (toHex (fromHex bobPub), X25519.toHex (fromHex bobPub));
+      (* round-trip: fromHex (toHex k) = SOME k for a 32-byte key *)
+      checkBool "fromHex(toHex pub) = SOME pub"
+        (true,
+         let val k = X25519.base (fromHex bobPriv)
+         in X25519.fromHex (X25519.toHex k) = SOME k end);
+      (* fromHex of the RFC vector equals the test's local decoder *)
+      checkBool "fromHex matches local fromHex on RFC vector"
+        (true, X25519.fromHex alicePub = SOME (fromHex alicePub));
+      checkBool "fromHex odd-length = NONE" (true, X25519.fromHex "abc" = NONE);
+      checkBool "fromHex non-hex = NONE" (true, X25519.fromHex "zz" = NONE);
+
       run ()
     end
 end

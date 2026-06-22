@@ -51,6 +51,8 @@ val clamped = X25519.clamp alicePriv
 | `dh` | `string -> string -> string` | `dh scalar uCoord`: X25519 scalar multiplication. |
 | `base` | `string -> string` | Public key: `dh scalar basePoint` (u = 9). |
 | `clamp` | `string -> string` | RFC 7748 section 5 scalar clamping. |
+| `toHex` | `string -> string` | Encode key/coordinate bytes as lowercase hex. |
+| `fromHex` | `string -> string option` | Decode hex to bytes; `NONE` on bad input (`fromHex (toHex b) = SOME b`). |
 
 Field arithmetic uses `IntInf.int` over GF(2^255 - 19) via the Montgomery
 ladder, so it is portable across MLton and Poly/ML with no overflow concerns.
