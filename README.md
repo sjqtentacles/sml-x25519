@@ -57,11 +57,31 @@ val clamped = X25519.clamp alicePriv
 Field arithmetic uses `IntInf.int` over GF(2^255 - 19) via the Montgomery
 ladder, so it is portable across MLton and Poly/ML with no overflow concerns.
 
+## Example
+
+`make example` builds and runs [`examples/demo.sml`](examples/demo.sml), which
+runs an X25519 key exchange on the fixed RFC 7748 section 6.1 vectors and prints
+the public keys and shared secret in hex:
+
+```
+$ make example
+X25519 key exchange (RFC 7748 section 6.1):
+  Alice public  = 8520f0098930a754748b7ddcb43ef75a0dbf3a0d26381af4eba4a98eaa9b4e6a
+  Bob   public  = de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f
+  shared (A*Bpub) = 4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742
+  shared (B*Apub) = 4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742
+  secrets agree   = true
+
+Single scalar multiplication (RFC 7748 section 5.2):
+  result = c3da55379de9c6908e94ea4df28d084f32eccf03491c71f754b4075577a28552
+```
+
 ## Testing
 
 ```
 make test       # MLton
 make test-poly  # Poly/ML
+make example    # build + run the demo
 ```
 
 ## License
